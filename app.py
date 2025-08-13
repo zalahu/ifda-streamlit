@@ -74,7 +74,17 @@ def fault_classifier(df):
         labels = df['fault_code']
         # Check if there are enough samples for splitting and training
         if len(features) > 1 and len(np.unique(labels)) > 1:
-            X_train, X_test, y_train, y_test = train_test_split(features, labels, test_size=0.2, random_state=42, stratify=labels) # Use stratify for balanced split
+            # Check if stratification is possible
+            class_counts = labels.value_counts()
+            stratify_possible = all(count >= 2 for count in class_counts)
+
+            if stratify_possible:
+                 X_train, X_test, y_train, y_test = train_test_split(features, labels, test_size=0.2, random_state=42, stratify=labels) # Use stratify for balanced split
+            else:
+                 st.warning("Insufficient samples in one or more classes for stratification. Proceeding without stratification.")
+                 X_train, X_test, y_train, y_test = train_test_split(features, labels, test_size=0.2, random_state=42)
+
+
             clf = RandomForestClassifier()
             clf.fit(X_train, y_train)
             df['predicted_fault'] = clf.predict(features)
