@@ -142,7 +142,8 @@ def send_to_cmms(tag, fault, action):
 # -------------------------------
 # Main UI
 # -------------------------------
-st.title("🛠️ Instrumentation Fault Detection Agent (IFDA)")
+st.title("🛠️ Instruments Fault Detection Agent (IFDA)")
+st.markdown('<span style="font-size: 12px; color: grey;">by Salahudeen Muhammed Illyas</span>', unsafe_allow_html=True)
 
 df = None # Initialize df to None
 
